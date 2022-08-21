@@ -1,7 +1,3 @@
-D:\GitHub\SocStipendDesktop\SocStipendDesktop\obj\Debug\net6.0-windows\SocStipendDesktop.csproj.AssemblyReference.cache
-D:\GitHub\SocStipendDesktop\SocStipendDesktop\obj\Debug\net6.0-windows\App.g.cs
-D:\GitHub\SocStipendDesktop\SocStipendDesktop\obj\Debug\net6.0-windows\SocStipendDesktop_MarkupCompile.cache
-D:\GitHub\SocStipendDesktop\SocStipendDesktop\obj\Debug\net6.0-windows\SocStipendDesktop_MarkupCompile.lref
 D:\GitHub\SocStipendDesktop\SocStipendDesktop\bin\Debug\net6.0-windows\SocStipendDesktop.exe
 D:\GitHub\SocStipendDesktop\SocStipendDesktop\bin\Debug\net6.0-windows\SocStipendDesktop.deps.json
 D:\GitHub\SocStipendDesktop\SocStipendDesktop\bin\Debug\net6.0-windows\SocStipendDesktop.runtimeconfig.json
@@ -22,6 +18,7 @@ D:\GitHub\SocStipendDesktop\SocStipendDesktop\bin\Debug\net6.0-windows\Microsoft
 D:\GitHub\SocStipendDesktop\SocStipendDesktop\bin\Debug\net6.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
 D:\GitHub\SocStipendDesktop\SocStipendDesktop\bin\Debug\net6.0-windows\Microsoft.Extensions.Options.dll
 D:\GitHub\SocStipendDesktop\SocStipendDesktop\bin\Debug\net6.0-windows\Microsoft.Extensions.Primitives.dll
+D:\GitHub\SocStipendDesktop\SocStipendDesktop\bin\Debug\net6.0-windows\Microsoft.Xaml.Behaviors.dll
 D:\GitHub\SocStipendDesktop\SocStipendDesktop\bin\Debug\net6.0-windows\SQLitePCLRaw.batteries_v2.dll
 D:\GitHub\SocStipendDesktop\SocStipendDesktop\bin\Debug\net6.0-windows\SQLitePCLRaw.core.dll
 D:\GitHub\SocStipendDesktop\SocStipendDesktop\bin\Debug\net6.0-windows\SQLitePCLRaw.provider.e_sqlite3.dll
@@ -40,6 +37,11 @@ D:\GitHub\SocStipendDesktop\SocStipendDesktop\bin\Debug\net6.0-windows\runtimes\
 D:\GitHub\SocStipendDesktop\SocStipendDesktop\bin\Debug\net6.0-windows\runtimes\win-arm64\native\e_sqlite3.dll
 D:\GitHub\SocStipendDesktop\SocStipendDesktop\bin\Debug\net6.0-windows\runtimes\win-x64\native\e_sqlite3.dll
 D:\GitHub\SocStipendDesktop\SocStipendDesktop\bin\Debug\net6.0-windows\runtimes\win-x86\native\e_sqlite3.dll
+D:\GitHub\SocStipendDesktop\SocStipendDesktop\obj\Debug\net6.0-windows\SocStipendDesktop.csproj.AssemblyReference.cache
+D:\GitHub\SocStipendDesktop\SocStipendDesktop\obj\Debug\net6.0-windows\App.g.cs
+D:\GitHub\SocStipendDesktop\SocStipendDesktop\obj\Debug\net6.0-windows\SocStipendDesktop_MarkupCompile.cache
+D:\GitHub\SocStipendDesktop\SocStipendDesktop\obj\Debug\net6.0-windows\SocStipendDesktop_MarkupCompile.lref
+D:\GitHub\SocStipendDesktop\SocStipendDesktop\obj\Debug\net6.0-windows\App.baml
 D:\GitHub\SocStipendDesktop\SocStipendDesktop\obj\Debug\net6.0-windows\SocStipendDesktop.g.resources
 D:\GitHub\SocStipendDesktop\SocStipendDesktop\obj\Debug\net6.0-windows\SocStipendDesktop.GeneratedMSBuildEditorConfig.editorconfig
 D:\GitHub\SocStipendDesktop\SocStipendDesktop\obj\Debug\net6.0-windows\SocStipendDesktop.AssemblyInfoInputs.cache
@@ -51,9 +53,7 @@ D:\GitHub\SocStipendDesktop\SocStipendDesktop\obj\Debug\net6.0-windows\refint\So
 D:\GitHub\SocStipendDesktop\SocStipendDesktop\obj\Debug\net6.0-windows\SocStipendDesktop.pdb
 D:\GitHub\SocStipendDesktop\SocStipendDesktop\obj\Debug\net6.0-windows\SocStipendDesktop.genruntimeconfig.cache
 D:\GitHub\SocStipendDesktop\SocStipendDesktop\obj\Debug\net6.0-windows\ref\SocStipendDesktop.dll
-D:\GitHub\SocStipendDesktop\SocStipendDesktop\obj\Debug\net6.0-windows\View\StipendCollectionView.g.cs
-D:\GitHub\SocStipendDesktop\SocStipendDesktop\obj\Debug\net6.0-windows\View\StudentView.g.cs
-D:\GitHub\SocStipendDesktop\SocStipendDesktop\obj\Debug\net6.0-windows\View\StipendCollectionView.baml
-D:\GitHub\SocStipendDesktop\SocStipendDesktop\obj\Debug\net6.0-windows\View\StudentView.baml
-D:\GitHub\SocStipendDesktop\SocStipendDesktop\obj\Debug\net6.0-windows\App.baml
-D:\GitHub\SocStipendDesktop\SocStipendDesktop\bin\Debug\net6.0-windows\Microsoft.Xaml.Behaviors.dll
+D:\GitHub\SocStipendDesktop\SocStipendDesktop\obj\Debug\net6.0-windows\Views\StipendCollectionView.g.cs
+D:\GitHub\SocStipendDesktop\SocStipendDesktop\obj\Debug\net6.0-windows\Views\StudentView.g.cs
+D:\GitHub\SocStipendDesktop\SocStipendDesktop\obj\Debug\net6.0-windows\Views\StipendCollectionView.baml
+D:\GitHub\SocStipendDesktop\SocStipendDesktop\obj\Debug\net6.0-windows\Views\StudentView.baml

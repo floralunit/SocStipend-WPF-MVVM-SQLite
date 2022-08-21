@@ -7,18 +7,18 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="View\StipendCollectionView.xaml.cs">
+    <Compile Update="Views\StipendCollectionView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="View\StudentView.xaml.cs">
+    <Compile Update="Views\StudentView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="View\StipendCollectionView.xaml">
+    <Page Update="Views\StipendCollectionView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\StudentView.xaml">
+    <Page Update="Views\StudentView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

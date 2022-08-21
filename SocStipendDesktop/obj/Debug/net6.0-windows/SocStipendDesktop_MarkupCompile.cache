@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 D:\GitHub\SocStipendDesktop\SocStipendDesktop\App.xaml
-21098882594
+21516446494
 
-111873930408
+10190563302
 213628748029
-View\StipendCollectionView.xaml;View\StudentView.xaml;
+Views\StipendCollectionView.xaml;Views\StudentView.xaml;
 
 False
 

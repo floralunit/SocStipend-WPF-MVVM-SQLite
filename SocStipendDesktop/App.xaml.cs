@@ -13,11 +13,11 @@ namespace SocStipendDesktop
     /// </summary>
     public partial class App : Application
     {
-        public static Model.StipendDbContext Context
+        public static Models.StipendDbContext Context
         {
             get;
         }
-            = new Model.StipendDbContext();
+            = new Models.StipendDbContext();
 
     }
 }
