@@ -1,0 +1,76 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\GitHub\\SocStipendDesktop\\SocStipendDesktop\\SocStipendDesktop.csproj": {}
+  },
+  "projects": {
+    "D:\\GitHub\\SocStipendDesktop\\SocStipendDesktop\\SocStipendDesktop.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\GitHub\\SocStipendDesktop\\SocStipendDesktop\\SocStipendDesktop.csproj",
+        "projectName": "SocStipendDesktop",
+        "projectPath": "D:\\GitHub\\SocStipendDesktop\\SocStipendDesktop\\SocStipendDesktop.csproj",
+        "packagesPath": "C:\\Users\\anya7\\.nuget\\packages\\",
+        "outputPath": "D:\\GitHub\\SocStipendDesktop\\SocStipendDesktop\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\anya7\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0-windows7.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "D:\\Работать!!!!\\TestNuget": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0-windows7.0": {
+            "targetAlias": "net6.0-windows",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0-windows7.0": {
+          "targetAlias": "net6.0-windows",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[6.0.3, )"
+            },
+            "Microsoft.Xaml.Behaviors.Wpf": {
+              "target": "Package",
+              "version": "[1.1.39, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WPF": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.303\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

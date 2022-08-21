@@ -1,0 +1,53 @@
+﻿<Window x:Class="SocStipendDesktop.View.StudentView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SocStipendDesktop.View"
+        mc:Ignorable="d"
+        Title="StudentView" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"> </ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="ФИО студента"></TextBlock>
+            <TextBox Name="TBoxName" Text="{Binding CurrentStudent.StudentName}"></TextBox>
+            <TextBlock Text="Группа"></TextBlock>
+            <TextBox Name="TBoxGroup" Text="{Binding CurrentStudent.StudentGroup}"></TextBox>
+            <TextBlock Text="Статус"></TextBlock>
+            <TextBox Name="TBoxStatus" Text="{Binding CurrentStudent.Status}"></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="0">
+            <ListView Name="List" ItemsSource="{Binding StipendCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding SelectedStipend, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Stretch" >
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Header="Дата назначения" DisplayMemberBinding="{Binding Path=DtAssign, StringFormat=dd.MM.yyyy}" Width="auto"></GridViewColumn>
+                            <GridViewColumn Header="Дата окончания" DisplayMemberBinding="{Binding Path=DtEnd, StringFormat=dd.MM.yyyy}" Width="auto"></GridViewColumn>
+                            <GridViewColumn Header="Дата приостановления" DisplayMemberBinding="{Binding Path=DtStop, StringFormat=dd.MM.yyyy}" Width="auto"></GridViewColumn>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+            <Button HorizontalAlignment="Right"
+                Name="BtnDelete2"
+                Content="Удалить запись"></Button>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+            <Button
+                Name="BtnAddProduct"
+                Content="Назначить стипендию новому студенту"></Button>
+            <Button HorizontalAlignment="Right"
+                Name="BtnDelete"
+                Content="Удалить запись"></Button>
+        </StackPanel>
+    </Grid>
+</Window>
