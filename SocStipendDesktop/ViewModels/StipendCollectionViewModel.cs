@@ -34,7 +34,7 @@ namespace SocStipendDesktop.ViewModels
             }
             if (ActualStipendCheck == true)
             {
-                stipends = stipends.Where(p => p.DtEnd == null || p.DtEnd >= DateTime.Now).ToList();
+                stipends = stipends.Where(p => (p.DtEnd == null || p.DtEnd >= DateTime.Now) && p.DtStop == null).ToList();
             }
             if (DateTo != null)
             {
@@ -156,34 +156,21 @@ namespace SocStipendDesktop.ViewModels
 
         //выбор записи
         private RelayCommand selectedStipendClickCommand;
-        public RelayCommand SelectedStipendClickCommand
-        {
-            get
-            {
-                return selectedStipendClickCommand ??
+        public RelayCommand SelectedStipendClickCommand => selectedStipendClickCommand ??
                   (selectedStipendClickCommand = new RelayCommand(obj =>
                   {
-                      MessageBox.Show(SelectedStipend.StudentName);
                       var studentView = new StudentView();
                       var studentModel = studentView.DataContext as StudentViewModel;
-                      studentModel.CurrentStudent = SelectedStipend;
+                      studentModel.CurrentStudent = App.Context.Students.FirstOrDefault(s => s.Id == SelectedStipend.StudentId);
                       studentView.Show();
                   }));
-            }
-        }
         // поиск
         private RelayCommand searchTextChangedCommand;
-        public RelayCommand SearchTextChangedCommand
-        {
-            get
-            {
-                return searchTextChangedCommand ??
+        public RelayCommand SearchTextChangedCommand => searchTextChangedCommand ??
                   (searchTextChangedCommand = new RelayCommand(obj =>
                   {
                       UpdateStipendColection();
                   }));
-            }
-        }
         // поиск по студенту
         private RelayCommand studentCheckedCommand;
         public RelayCommand StudentCheckedCommand

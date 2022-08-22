@@ -165,7 +165,7 @@
                         HorizontalAlignment="Left"
                         Margin="5"
                         Padding="5,0,5,0"
-                Content="Назначить стипендию новому студенту"></Button>
+                Content="Назначить стипендию студенту, которого нет в списке"></Button>
                 <Button HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="1"
                 Name="BtnDelete"
                     Background="Transparent"

@@ -1,4 +1,5 @@
-﻿using SocStipendDesktop.ViewModels;
+﻿using Microsoft.EntityFrameworkCore;
+using SocStipendDesktop.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,8 @@ namespace SocStipendDesktop.Views
         public StudentView()
         {
             InitializeComponent();
+            App.Context.Stipends.Load();
+            App.Context.Students.Load();
             DataContext = new StudentViewModel();
         }
     }
