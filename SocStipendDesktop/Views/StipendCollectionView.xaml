@@ -159,20 +159,50 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0"
                 Name="BtnAddProduct"
                         HorizontalAlignment="Left"
                         Margin="5"
                         Padding="5,0,5,0"
-                Content="Назначить стипендию студенту, которого нет в списке"></Button>
+                Content="Назначить стипендию студенту, которого нет в списке">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction
+                            Command="{Binding SelectedStipendClickCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
                 <Button HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="1"
+                Name="BtnUpdateGroup"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Foreground="Red"
+                        Margin="5"
+                Content="Обновить название группы">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction
+                            Command="{Binding UpdateGloupNameCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+                <Button HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="2"
                 Name="BtnDelete"
                     Background="Transparent"
                     BorderBrush="Transparent"
                     Foreground="Red"
                         Margin="5"
-                Content="Удалить запись"></Button>
+                Content="Удалить запись">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction
+                            Command="{Binding SelectedStipendClickCommand}"
+                            CommandParameter="{Binding SelectedStipend}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
             </Grid>
         </StackPanel>
     </Grid>

@@ -10,6 +10,7 @@ using SocStipendDesktop.Models;
 using System.Windows;
 using SocStipendDesktop.Views;
 using SocStipendDesktop.Services;
+using System.Text.RegularExpressions;
 
 namespace SocStipendDesktop.ViewModels
 {
@@ -53,108 +54,8 @@ namespace SocStipendDesktop.ViewModels
             }
             StipendCollection = new ObservableCollection<Stipend>(stipends.OrderBy(p => p.StudentName));
         }
-        public ObservableCollection<Stipend> stipendcol;
-        public ObservableCollection<Stipend> StipendCollection
-        {
-            get { return stipendcol; }
-            set
-            {
-                stipendcol = value;
-                OnPropertyChanged("StipendCollection");
-            }
-        }
-        public Stipend selectedstipend;
-        public Stipend SelectedStipend
-        {
-            get { return selectedstipend; }
-            set
-            {
-                selectedstipend = value;
-                OnPropertyChanged("SelectedStipend");
-            }
-        }
-        public bool _ActualStipendCheck;
-        public bool ActualStipendCheck
-        {
-            get { return _ActualStipendCheck; }
-            set
-            {
-                _ActualStipendCheck = value;
-                OnPropertyChanged("ActualStipendCheck");
-            }
-        }
-        public bool dtAssignCheck;
-        public bool DtAssignCheck
-        {
-            get { return dtAssignCheck; }
-            set
-            {
-                dtAssignCheck = value;
-                OnPropertyChanged("DtAssignCheck");
-            }
-        }
-        public bool dtEndCheck;
-        public bool DtEndCheck
-        {
-            get { return dtEndCheck; }
-            set
-            {
-                dtEndCheck = value;
-                OnPropertyChanged("DtEndCheck");
-            }
-        }
-        public DateTime? _DateTo;
-        public DateTime? DateTo
-        {
-            get { return _DateTo; }
-            set
-            {
-                _DateTo = value;
-                OnPropertyChanged("DateTo");
-            }
-        }
-        public DateTime? _DateFrom;
-        public DateTime? DateFrom
-        {
-            get { return _DateFrom; }
-            set
-            {
-                _DateFrom = value;
-                OnPropertyChanged("DateFrom");
-            }
-        }
-        public bool groupcheck;
-        public bool GroupCheck
-        {
-            get { return groupcheck; }
-            set
-            {
-                groupcheck = value;
-                OnPropertyChanged("GroupCheck");
-            }
-        }
-        public bool studentcheck;
-        public bool StudentCheck
-        {
-            get { return studentcheck; }
-            set
-            {
-                studentcheck = value;
-                OnPropertyChanged("StudentCheck");
-            }
-        }
-        public string searchbox;
-        public string SearchBox 
-        {
-            get { return searchbox; }
-            set
-            {
-                searchbox = value;
-                OnPropertyChanged("SearchBox");
-            }
-        }
 
-        //выбор записи
+        //открытие окна для работы с отдельным студентом
         private RelayCommand selectedStipendClickCommand;
         public RelayCommand SelectedStipendClickCommand => selectedStipendClickCommand ??
                   (selectedStipendClickCommand = new RelayCommand(obj =>
@@ -164,6 +65,86 @@ namespace SocStipendDesktop.ViewModels
                       studentModel.CurrentStudent = App.Context.Students.FirstOrDefault(s => s.Id == SelectedStipend.StudentId);
                       studentView.Show();
                   }));
+        //обновление групп в связи с новым учебным годом
+        private RelayCommand updateGloupNameCommand;
+        public RelayCommand UpdateGloupNameCommand => updateGloupNameCommand ??
+                  (updateGloupNameCommand = new RelayCommand(obj =>
+                  {
+                      var month = DateTime.Now.Month;
+                      if (month >= 8 && month <= 12)
+                      {
+                          var result = MessageBox.Show("Обновить группу для всех студентов в связи с новым уч. годом? \nЭто действие не отменить.", "Внимание!", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                          if (result == MessageBoxResult.Yes)
+                          {
+                              foreach (var student in App.Context.Students)
+                              {
+                                  if (student.StudentGroup != null)
+                                  {
+                                      var group = student.StudentGroup;
+                                      var groupNew = UpdateGroup(group);
+                                      student.StudentGroup = groupNew;
+                                  }
+                              }
+                              App.Context.SaveChanges();
+                              UpdateStipendColection();
+                          }
+                          else
+                              return;
+                      }
+                      else
+                      {
+                          MessageBox.Show("Обновление группы возможно только в период с 1 августа по 31 декабря", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                          return;
+                      }
+                  }));
+        public string UpdateGroup (string groupOld)
+        {
+            string groupNew = groupOld;
+            var year = DateTime.Now.Year;
+            year = int.Parse(year.ToString().Substring(year.ToString().Length - 2));
+            try
+            {
+                var groupNumOld = Regex.Match(groupOld, @"\d+").Value;
+                var groupYear = int.Parse(groupNumOld.Substring(groupNumOld.Length - 2));
+                int kurs;
+                switch (groupYear, year)
+                {
+                    case ( > 0, > 0) when groupYear == year:
+                        kurs = 1;
+                        break;
+
+                    case ( > 0, > 0) when groupYear == (year - 1):
+                        kurs = 2;
+                        break;
+
+                    case ( > 0, > 0) when groupYear == (year - 2):
+                        kurs = 3;
+                        break;
+                    case ( > 0, > 0) when groupYear == (year - 3):
+                        kurs = 4;
+                        break;
+
+                    case ( > 0, > 0) when groupYear == (year - 4):
+                        kurs = 5;
+                        break;
+                    default:
+                        groupNew = "Выпускник";
+                        return groupNew;
+                }
+                var groupNumNew = string.Format(kurs.ToString() + groupYear.ToString());
+                int pos = groupOld.IndexOf(groupNumOld);
+                if (pos < 0)
+                {
+                    return groupNew;
+                }
+                groupNew = groupOld.Substring(0, pos) + groupNumNew + groupOld.Substring(pos + groupNumOld.Length);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            return groupNew;
+        }
         // поиск
         private RelayCommand searchTextChangedCommand;
         public RelayCommand SearchTextChangedCommand => searchTextChangedCommand ??
@@ -282,34 +263,114 @@ namespace SocStipendDesktop.ViewModels
                   }));
             }
         }
+
+
+
+        public ObservableCollection<Stipend> stipendcol;
+        public ObservableCollection<Stipend> StipendCollection
+        {
+            get { return stipendcol; }
+            set
+            {
+                stipendcol = value;
+                OnPropertyChanged("StipendCollection");
+            }
+        }
+        public Stipend selectedstipend;
+        public Stipend SelectedStipend
+        {
+            get { return selectedstipend; }
+            set
+            {
+                selectedstipend = value;
+                OnPropertyChanged("SelectedStipend");
+            }
+        }
+        public bool _ActualStipendCheck;
+        public bool ActualStipendCheck
+        {
+            get { return _ActualStipendCheck; }
+            set
+            {
+                _ActualStipendCheck = value;
+                OnPropertyChanged("ActualStipendCheck");
+            }
+        }
+        public bool dtAssignCheck;
+        public bool DtAssignCheck
+        {
+            get { return dtAssignCheck; }
+            set
+            {
+                dtAssignCheck = value;
+                OnPropertyChanged("DtAssignCheck");
+            }
+        }
+        public bool dtEndCheck;
+        public bool DtEndCheck
+        {
+            get { return dtEndCheck; }
+            set
+            {
+                dtEndCheck = value;
+                OnPropertyChanged("DtEndCheck");
+            }
+        }
+        public DateTime? _DateTo;
+        public DateTime? DateTo
+        {
+            get { return _DateTo; }
+            set
+            {
+                _DateTo = value;
+                OnPropertyChanged("DateTo");
+            }
+        }
+        public DateTime? _DateFrom;
+        public DateTime? DateFrom
+        {
+            get { return _DateFrom; }
+            set
+            {
+                _DateFrom = value;
+                OnPropertyChanged("DateFrom");
+            }
+        }
+        public bool groupcheck;
+        public bool GroupCheck
+        {
+            get { return groupcheck; }
+            set
+            {
+                groupcheck = value;
+                OnPropertyChanged("GroupCheck");
+            }
+        }
+        public bool studentcheck;
+        public bool StudentCheck
+        {
+            get { return studentcheck; }
+            set
+            {
+                studentcheck = value;
+                OnPropertyChanged("StudentCheck");
+            }
+        }
+        public string searchbox;
+        public string SearchBox
+        {
+            get { return searchbox; }
+            set
+            {
+                searchbox = value;
+                OnPropertyChanged("SearchBox");
+            }
+        }
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
-        //private void UpdateProducts()
-        //{
-        //    var products = App.Context.Product.ToList();
-        //    //sort by price
-        //    if (ComboSortBy.SelectedIndex == 0)
-        //        products = products.OrderBy(p => p.ProductCost).ToList();
-        //    else
-        //        products = products.OrderByDescending(p => p.ProductCost).ToList();
-        //    //skidka
-        //    if (ComboDiscount.SelectedIndex == 1)
-        //        products = products.Where(p => p.ProductDiscountAmount >= 0 && p.ProductDiscountAmount < 9.99).ToList();
-        //    if (ComboDiscount.SelectedIndex == 2)
-        //        products = products.Where(p => p.ProductDiscountAmount >= 10 && p.ProductDiscountAmount < 14.99).ToList();
-        //    if (ComboDiscount.SelectedIndex == 3)
-        //        products = products.Where(p => p.ProductDiscountAmount >= 15 && p.ProductDiscountAmount < 100).ToList();
-        //    //поиск по названию
-        //    products = products.Where(p => p.ProductName.ToLower().Contains(TBoxSearch.Text.ToLower())).ToList();
-        //    foreach (Product product in products)
-        //    {
-        //        product.ProductManufacturerName = App.Context.Manufacturer.FirstOrDefault(p => p.Id_Manufacturer == product.ProductManufacturer).ProductManufacturer;
-        //    }
-        //    LViewProducts.ItemsSource = products;
-        //}
     }
 }
