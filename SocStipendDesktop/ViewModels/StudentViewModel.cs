@@ -35,6 +35,16 @@ namespace SocStipendDesktop.ViewModels
                 OnPropertyChanged("StipendCollection");
             }
         }
+        public Stipend selectedstipend;
+        public Stipend SelectedStipend
+        {
+            get { return selectedstipend; }
+            set
+            {
+                selectedstipend = value;
+                OnPropertyChanged("SelectedStipend");
+            }
+        }
 
         //сохранить изменения
         private RelayCommand saveChangesClickCommand;
@@ -102,11 +112,74 @@ namespace SocStipendDesktop.ViewModels
                 return stipendColectionLoadedCommand ??
                   (stipendColectionLoadedCommand = new RelayCommand(obj =>
                   {
-                      var stipends = App.Context.Stipends.ToList();
-                      StipendCollection = new ObservableCollection<Stipend>(stipends.Where(p => p.StudentId == CurrentStudent.Id).OrderBy(s => s.DtAssign));
+                      UpdateStipendColection();
                   }));
             }
         }
+        public void UpdateStipendColection()
+        {
+            var stipends = App.Context.Stipends.ToList();
+            StipendCollection = new ObservableCollection<Stipend>(stipends.Where(p => p.StudentId == CurrentStudent.Id).OrderBy(s => s.DtAssign));
+        }
+        //создать новую справку
+        private RelayCommand stipendCreateClickCommand;
+        public RelayCommand StipendCreateClickCommand => stipendCreateClickCommand ??
+                  (stipendCreateClickCommand = new RelayCommand(obj =>
+                  {
+                      var stipendView = new RefView();
+                      var stipendModel = stipendView.DataContext as RefViewModel;
+                      stipendModel.CurrentStipend = new Stipend();
+                      stipendModel.CurrentStipend.StudentId = CurrentStudent.Id;
+                      stipendView.Show();
+                  }));
+
+
+        //редактировать справку
+        private RelayCommand stipendUpdateClickCommand;
+        public RelayCommand StipendUpdateClickCommand => stipendUpdateClickCommand ??
+                  (stipendUpdateClickCommand = new RelayCommand(obj =>
+                  {
+                      if (SelectedStipend == null)
+                      {
+                          MessageBox.Show("Выберите справку!", "Внимание!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                          return;
+                      }
+                      else
+                      {
+                          var stipendView = new RefView();
+                          var stipendModel = stipendView.DataContext as RefViewModel;
+                          stipendModel.CurrentStipend = App.Context.Stipends.FirstOrDefault(s => s.Id == SelectedStipend.Id);
+                          stipendModel.CurrentStipend.StudentId = CurrentStudent.Id;
+                          stipendView.Show();
+                      }
+                  }));
+
+
+        //удалить справку
+        private RelayCommand stipendDeleteClickCommand;
+        public RelayCommand StipendDeleteClickCommand => stipendDeleteClickCommand ??
+                  (stipendDeleteClickCommand = new RelayCommand(obj =>
+                  {
+                      if (SelectedStipend == null)
+                      {
+                          MessageBox.Show("Выберите справку!", "Внимание!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                          return;
+                      }
+                      else
+                      {
+                          var result = MessageBox.Show("Удалить выбранную справку?", $"{SelectedStipend.StudentName} от {SelectedStipend.DtAssign}", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                          if (result == MessageBoxResult.Yes)
+                          {
+                              var stipend = App.Context.Stipends.FirstOrDefault(s => s.Id == SelectedStipend.Id);
+                              App.Context.Stipends.Remove(stipend);
+                              App.Context.SaveChanges();
+                              UpdateStipendColection();
+                          }
+                          else
+                              return;
+                      }
+                  }));
+
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {

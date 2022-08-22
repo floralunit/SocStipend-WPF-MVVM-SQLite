@@ -1,0 +1,32 @@
+﻿<Window x:Class="SocStipendDesktop.Views.RefView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SocStipendDesktop.Views"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        mc:Ignorable="d"
+        Title="RefView" Height="450" Width="800">
+    <Grid>
+        <StackPanel>
+            <TextBlock Text="Дата выдачи справки"></TextBlock>
+            <DatePicker SelectedDate="{Binding CurrentStipend.DtRef}"></DatePicker>
+            <TextBlock Text="Дата назначения соц. стипендии"></TextBlock>
+            <DatePicker  SelectedDate="{Binding CurrentStipend.DtAssign}"></DatePicker>
+            <TextBlock Text="Дата окончания"></TextBlock>
+            <DatePicker SelectedDate="{Binding CurrentStipend.DtEnd}"></DatePicker>
+            <TextBlock Text="Компенсация проездного"></TextBlock>
+            <TextBox  Text="{Binding CurrentStipend.Name}"></TextBox>
+            <TextBlock Text="Приостановлено"></TextBlock>
+            <DatePicker Name="TBoxGroup" Text="{Binding CurrentStipend.StudentGroup}"></DatePicker>
+            <Button Content="Сохранить">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction
+                            Command="{Binding SaveChangesClickCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>

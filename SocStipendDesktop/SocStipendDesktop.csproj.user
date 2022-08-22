@@ -7,6 +7,9 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Views\RefView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\StipendCollectionView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -15,6 +18,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Views\RefView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\StipendCollectionView.xaml">
       <SubType>Designer</SubType>
     </Page>

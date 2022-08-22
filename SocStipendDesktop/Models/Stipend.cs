@@ -11,9 +11,13 @@ namespace SocStipendDesktop.Models
     {
         public int Id { get; set; }
         public int? StudentId { get; set; }
+        [NotMapped]
+        public DateTime? DtRef { get; set; }
         public DateTime? DtAssign { get; set; }
         public DateTime? DtEnd { get; set; }
         public DateTime? DtStop { get; set; }
+        [NotMapped]
+        public bool? HasTravelCard { get; set; }
         [NotMapped]
         public string? StudentName { get; set; }
         [NotMapped]

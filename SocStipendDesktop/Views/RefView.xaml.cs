@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SocStipendDesktop.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,18 +11,19 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using SocStipendDesktop.ViewModels;
 
 namespace SocStipendDesktop.Views
 {
     /// <summary>
-    /// Логика взаимодействия для StudentView.xaml
+    /// Логика взаимодействия для RefView.xaml
     /// </summary>
-    public partial class StudentView : Window
+    public partial class RefView : Window
     {
-        public StudentView()
+        public RefView()
         {
             InitializeComponent();
-            DataContext = new StudentViewModel();
+            DataContext = new RefViewModel();
         }
     }
 }

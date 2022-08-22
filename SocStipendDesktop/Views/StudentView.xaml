@@ -11,7 +11,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Menu VerticalAlignment="Top" Grid.Row="0">
             <MenuItem Header="Сохранить изменения" >
@@ -21,32 +20,6 @@
                             Command="{Binding SaveChangesClickCommand}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-            </MenuItem>
-            <MenuItem Header="Справки">
-                <MenuItem Header="Добавить" >
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction
-                            Command="{Binding CreateNewRefClickCommand}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </MenuItem>
-                <MenuItem Header="Редактировать" >
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction
-                            Command="{Binding CreateNewRefClickCommand}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </MenuItem>
-                <MenuItem Header="Удалить" >
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction
-                            Command="{Binding CreateNewRefClickCommand}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </MenuItem>
             </MenuItem>
             <MenuItem Header="Удалить студента и все его справки" >
                 <i:Interaction.Triggers>
@@ -64,8 +37,35 @@
             <TextBox Name="TBoxGroup" Text="{Binding CurrentStudent.StudentGroup}"></TextBox>
             <TextBlock Text="Статус"></TextBlock>
             <TextBox Name="TBoxStatus" Text="{Binding CurrentStudent.Status}"></TextBox>
-        </StackPanel>
-        <StackPanel Grid.Row="2">
+            <TextBlock HorizontalAlignment="Center">Справки</TextBlock>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Добавить">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction
+                            Command="{Binding StipendCreateClickCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+                <Button Content="Редактировать">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction
+                            Command="{Binding StipendUpdateClickCommand}"
+                            CommandParameter="{Binding SelectedStipend}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+                <Button Content="Удалить">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction
+                            Command="{Binding StipendDeleteClickCommand}"
+                            CommandParameter="{Binding SelectedStipend}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+            </StackPanel>
             <ListView Name="List" ItemsSource="{Binding StipendCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                       SelectedItem="{Binding SelectedStipend, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                       HorizontalAlignment="Stretch">

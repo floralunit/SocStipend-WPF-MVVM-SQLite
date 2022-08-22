@@ -29,9 +29,11 @@ namespace SocStipendDesktop.ViewModels
             var students = App.Context.Students.ToList();
             foreach (Stipend item in stipends)
             {
-                item.StudentName = students.FirstOrDefault(x => x.Id == item.StudentId).Name;
-                item.StudentGroup = students.FirstOrDefault(x => x.Id == item.StudentId).StudentGroup;
-                item.Status = students.FirstOrDefault(x => x.Id == item.StudentId).Status;
+                if (item.StudentId != null) {
+                    item.StudentName = students.FirstOrDefault(x => x.Id == item.StudentId).Name;
+                    item.StudentGroup = students.FirstOrDefault(x => x.Id == item.StudentId).StudentGroup;
+                    item.Status = students.FirstOrDefault(x => x.Id == item.StudentId).Status;
+                }
             }
             if (ActualStipendCheck == true)
             {
