@@ -5,14 +5,62 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SocStipendDesktop.Views" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="Социальная стипендия" Height="620" Width="820" FontFamily="Calibri" FontSize="16" ResizeMode="CanMinimize">
+        Title="Социальная стипендия" Height="600" Width="800" FontFamily="Calibri" FontSize="16">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="0.3*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="0.08*"/>
         </Grid.RowDefinitions>
-        <StackPanel Background="Beige">
+        <Menu VerticalAlignment="Top" Grid.Row="0">
+            <MenuItem Header="Меню">
+                <MenuItem Header="Добавить нового студента" >
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction
+                            Command="{Binding CreateNewStudentClickCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </MenuItem>
+                <MenuItem Header="Обновить название групп">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction
+                            Command="{Binding UpdateGloupNameCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </MenuItem>
+                <MenuItem Header="Сохранить базу данных"></MenuItem>
+                <Separator />
+                <MenuItem Header="Выйти" >
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction
+                            Command="{Binding ExitClickCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Открыть справки выбранного студента" >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction
+                            Command="{Binding SelectedStipendClickCommand}"
+                            CommandParameter="{Binding SelectedStipend}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </MenuItem>
+            <MenuItem Header="Удалить справку" >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction
+                            Command="{Binding StipendDeleteClickCommand}"
+                            CommandParameter="{Binding SelectedStipend}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </MenuItem>
+        </Menu>
+        <StackPanel Background="Beige" Grid.Row="1">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
@@ -102,7 +150,7 @@
                 </StackPanel>
                 <CheckBox Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"
                           Name="CBActual" IsChecked="{Binding ActualStipendCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                          Content="Показать только действующие стипендии">
+                          Content="Показать только действующие справки">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Checked">
                             <i:InvokeCommandAction
@@ -118,15 +166,26 @@
                 </CheckBox>
             </Grid>
         </StackPanel>
-        <ListView Name="List" Grid.Row="1" ItemsSource="{Binding StipendCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding SelectedStipend, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Stretch" >
-                <ListView.View>
-                    <GridView>
+        <ListView Name="List" Grid.Row="2" ItemsSource="{Binding StipendCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                  SelectedItem="{Binding SelectedStipend, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Stretch" >
+            <ListView.View>
+                <GridView>
                     <GridView.Columns>
                         <GridViewColumn Header="Студент" DisplayMemberBinding="{Binding Path=StudentName}" Width="auto" ></GridViewColumn>
                         <GridViewColumn Header="Группа" DisplayMemberBinding="{Binding Path=StudentGroup}" Width="auto"></GridViewColumn>
-                        <GridViewColumn Header="Дата назначения" DisplayMemberBinding="{Binding Path=DtAssign, StringFormat=dd.MM.yyyy}" Width="auto"></GridViewColumn>
+                        <GridViewColumn Header="Дата выдачи справки" DisplayMemberBinding="{Binding Path=DtRef, StringFormat=dd.MM.yyyy}" Width="auto"></GridViewColumn>
+                        <GridViewColumn Header="Дата назначения соц. стипендии" DisplayMemberBinding="{Binding Path=DtAssign, StringFormat=dd.MM.yyyy}" Width="auto"></GridViewColumn>
                         <GridViewColumn Header="Дата окончания" DisplayMemberBinding="{Binding Path=DtEnd, StringFormat=dd.MM.yyyy}" Width="auto"></GridViewColumn>
-                        <GridViewColumn Header="Дата приостановления" DisplayMemberBinding="{Binding Path=DtStop, StringFormat=dd.MM.yyyy}" Width="auto"></GridViewColumn>
+                        <GridViewColumn Header="Компенсация проездного">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <CheckBox IsChecked="{Binding Path=HasTravelCard}" IsEnabled="False" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Приостановлено" DisplayMemberBinding="{Binding Path=DtStop, StringFormat=dd.MM.yyyy}" Width="auto"></GridViewColumn>
                         <GridViewColumn Header="Статус" DisplayMemberBinding="{Binding Path=Status}" Width="auto"></GridViewColumn>
                     </GridView.Columns>
                     <!--<GridView.ColumnHeaderContainerStyle>
@@ -145,7 +204,7 @@
                         </Style>
                     </GridView.ColumnHeaderContainerStyle>-->
                 </GridView>
-                </ListView.View>
+            </ListView.View>
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction
@@ -154,56 +213,5 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </ListView>
-        <StackPanel Grid.Row="2" Background="Beige">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0"
-                Name="BtnAddProduct"
-                        HorizontalAlignment="Left"
-                        Margin="5"
-                        Padding="5,0,5,0"
-                Content="Назначить стипендию студенту, которого нет в списке">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction
-                            Command="{Binding SelectedStipendClickCommand}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </Button>
-                <Button HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="1"
-                Name="BtnUpdateGroup"
-                    Background="Transparent"
-                    BorderBrush="Transparent"
-                    Foreground="Red"
-                        Margin="5"
-                Content="Обновить название группы">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction
-                            Command="{Binding UpdateGloupNameCommand}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </Button>
-                <Button HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="2"
-                Name="BtnDelete"
-                    Background="Transparent"
-                    BorderBrush="Transparent"
-                    Foreground="Red"
-                        Margin="5"
-                Content="Удалить запись">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction
-                            Command="{Binding SelectedStipendClickCommand}"
-                            CommandParameter="{Binding SelectedStipend}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </Button>
-            </Grid>
-        </StackPanel>
     </Grid>
 </Window>

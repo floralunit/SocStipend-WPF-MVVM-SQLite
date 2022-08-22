@@ -60,11 +60,33 @@ namespace SocStipendDesktop.ViewModels
         public RelayCommand SelectedStipendClickCommand => selectedStipendClickCommand ??
                   (selectedStipendClickCommand = new RelayCommand(obj =>
                   {
+                      if (SelectedStipend == null)
+                      {
+                          MessageBox.Show("Выберите справку!", "Внимание!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                          return;
+                      }
+                      else
+                      {
+                          var studentView = new StudentView();
+                          var studentModel = studentView.DataContext as StudentViewModel;
+                          studentModel.CurrentStudent = App.Context.Students.FirstOrDefault(s => s.Id == SelectedStipend.StudentId);
+                          studentView.Show();
+                      }
+                  }));
+
+
+        //добавление нового студента
+        private RelayCommand createNewStudentClickCommand;
+        public RelayCommand CreateNewStudentClickCommand => createNewStudentClickCommand ??
+                  (createNewStudentClickCommand = new RelayCommand(obj =>
+                  {
                       var studentView = new StudentView();
                       var studentModel = studentView.DataContext as StudentViewModel;
-                      studentModel.CurrentStudent = App.Context.Students.FirstOrDefault(s => s.Id == SelectedStipend.StudentId);
+                      studentModel.CurrentStudent = new Student ();
                       studentView.Show();
                   }));
+
+
         //обновление групп в связи с новым учебным годом
         private RelayCommand updateGloupNameCommand;
         public RelayCommand UpdateGloupNameCommand => updateGloupNameCommand ??
@@ -73,7 +95,7 @@ namespace SocStipendDesktop.ViewModels
                       var month = DateTime.Now.Month;
                       if (month >= 8 && month <= 12)
                       {
-                          var result = MessageBox.Show("Обновить группу для всех студентов в связи с новым уч. годом? \nЭто действие не отменить.", "Внимание!", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                          var result = MessageBox.Show("Обновить группу для всех студентов в связи с новым уч. годом? \nЭто действие нельзя отменить.", "Внимание!", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                           if (result == MessageBoxResult.Yes)
                           {
                               foreach (var student in App.Context.Students)
@@ -145,6 +167,40 @@ namespace SocStipendDesktop.ViewModels
             }
             return groupNew;
         }
+
+        //удаление записи
+        private RelayCommand stipendDeleteClickCommand;
+        public RelayCommand StipendDeleteClickCommand => stipendDeleteClickCommand ??
+                  (stipendDeleteClickCommand = new RelayCommand(obj =>
+                  {
+                      if (SelectedStipend == null)
+                      {
+                          MessageBox.Show("Выберите справку!", "Внимание!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                          return;
+                      }
+                      else
+                      {
+                          var result = MessageBox.Show("Удалить выбранную справку?", $"{SelectedStipend.StudentName} от {SelectedStipend.DtAssign}", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                          if (result == MessageBoxResult.Yes)
+                          {
+                              var stipend = App.Context.Stipends.FirstOrDefault(s => s.Id == SelectedStipend.Id);
+                              App.Context.Stipends.Remove(stipend);
+                              App.Context.SaveChanges();
+                              UpdateStipendColection();
+                          }
+                          else
+                              return;
+                      }
+                  }));
+
+        //выход из приложения
+        private RelayCommand exitClickCommand;
+        public RelayCommand ExitClickCommand => exitClickCommand ??
+                  (exitClickCommand = new RelayCommand(obj =>
+                  {
+                  }));
+
+
         // поиск
         private RelayCommand searchTextChangedCommand;
         public RelayCommand SearchTextChangedCommand => searchTextChangedCommand ??

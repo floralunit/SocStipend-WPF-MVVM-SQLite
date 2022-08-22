@@ -8,15 +8,56 @@
         mc:Ignorable="d"
         Title="{Binding CurrentStudent.Name}" Height="450" Width="800">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"> </ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Menu VerticalAlignment="Top" Grid.Row="0">
+            <MenuItem Header="Сохранить изменения" >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction
+                            Command="{Binding SaveChangesClickCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </MenuItem>
+            <MenuItem Header="Справки">
+                <MenuItem Header="Добавить" >
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction
+                            Command="{Binding CreateNewRefClickCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </MenuItem>
+                <MenuItem Header="Редактировать" >
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction
+                            Command="{Binding CreateNewRefClickCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </MenuItem>
+                <MenuItem Header="Удалить" >
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction
+                            Command="{Binding CreateNewRefClickCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Удалить студента и все его справки" >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction
+                            Command="{Binding StudentDeleteClickCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </MenuItem>
+        </Menu>
+        <StackPanel Grid.Row="1" >
             <TextBlock Text="ФИО студента"></TextBlock>
             <TextBox Name="TBoxName" Text="{Binding CurrentStudent.Name}"></TextBox>
             <TextBlock Text="Группа"></TextBlock>
@@ -24,16 +65,26 @@
             <TextBlock Text="Статус"></TextBlock>
             <TextBox Name="TBoxStatus" Text="{Binding CurrentStudent.Status}"></TextBox>
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="0">
+        <StackPanel Grid.Row="2">
             <ListView Name="List" ItemsSource="{Binding StipendCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                       SelectedItem="{Binding SelectedStipend, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                       HorizontalAlignment="Stretch">
                 <ListView.View>
                     <GridView>
                         <GridView.Columns>
-                            <GridViewColumn Header="Дата назначения" DisplayMemberBinding="{Binding Path=DtAssign, StringFormat=dd.MM.yyyy}" Width="auto"></GridViewColumn>
+                            <GridViewColumn Header="Дата выдачи справки" DisplayMemberBinding="{Binding Path=DtRef, StringFormat=dd.MM.yyyy}" Width="auto"></GridViewColumn>
+                            <GridViewColumn Header="Дата назначения соц. стипендии" DisplayMemberBinding="{Binding Path=DtAssign, StringFormat=dd.MM.yyyy}" Width="auto"></GridViewColumn>
                             <GridViewColumn Header="Дата окончания" DisplayMemberBinding="{Binding Path=DtEnd, StringFormat=dd.MM.yyyy}" Width="auto"></GridViewColumn>
-                            <GridViewColumn Header="Дата приостановления" DisplayMemberBinding="{Binding Path=DtStop, StringFormat=dd.MM.yyyy}" Width="auto"></GridViewColumn>
+                            <GridViewColumn Header="Компенсация проездного">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <CheckBox IsChecked="{Binding Path=HasTravelCard}" IsEnabled="False" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Приостановлено" DisplayMemberBinding="{Binding Path=DtStop, StringFormat=dd.MM.yyyy}" Width="auto"></GridViewColumn>
                         </GridView.Columns>
                     </GridView>
                 </ListView.View>
@@ -45,19 +96,6 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ListView>
-        </StackPanel>
-        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-            <Button HorizontalAlignment="Right"
-                Name="BtnDelete2"
-                Content="Удалить запись"></Button>
-        </StackPanel>
-        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
-            <Button
-                Name="BtnAddProduct"
-                Content="Назначить стипендию новому студенту"></Button>
-            <Button HorizontalAlignment="Right"
-                Name="BtnDelete"
-                Content="Удалить запись"></Button>
         </StackPanel>
     </Grid>
 </Window>
