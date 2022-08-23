@@ -21,9 +21,9 @@ namespace SocStipendDesktop.ViewModels
             StudentCheck = true;
             DtAssignCheck = true;
             ActualStipendCheck = true;
-            UpdateStipendColection();
+            UpdateStipendCollection();
         }
-        public void UpdateStipendColection()
+        public void UpdateStipendCollection()
         {
             var stipends = App.Context.Stipends.ToList();
             var students = App.Context.Students.ToList();
@@ -113,7 +113,7 @@ namespace SocStipendDesktop.ViewModels
                                   }
                               }
                               App.Context.SaveChanges();
-                              UpdateStipendColection();
+                              UpdateStipendCollection();
                           }
                           else
                               return;
@@ -191,7 +191,7 @@ namespace SocStipendDesktop.ViewModels
                               var stipend = App.Context.Stipends.FirstOrDefault(s => s.Id == SelectedStipend.Id);
                               App.Context.Stipends.Remove(stipend);
                               App.Context.SaveChanges();
-                              UpdateStipendColection();
+                              UpdateStipendCollection();
                           }
                           else
                               return;
@@ -206,13 +206,24 @@ namespace SocStipendDesktop.ViewModels
                       Application.Current.MainWindow.Close();
                   }));
 
+        //обновить таблицу
+        private RelayCommand refreshClickCommand;
+        public RelayCommand RefreshClickCommand => refreshClickCommand ??
+                  (refreshClickCommand = new RelayCommand(obj =>
+                  {
+                      DateFrom = null;
+                      DateTo = null;
+                      SearchBox = "";
+                      ActualStipendCheck = false;
+                      UpdateStipendCollection();
+                  }));
 
         // поиск
         private RelayCommand searchTextChangedCommand;
         public RelayCommand SearchTextChangedCommand => searchTextChangedCommand ??
                   (searchTextChangedCommand = new RelayCommand(obj =>
                   {
-                      UpdateStipendColection();
+                      UpdateStipendCollection();
                   }));
         // поиск по студенту
         private RelayCommand studentCheckedCommand;
@@ -225,7 +236,7 @@ namespace SocStipendDesktop.ViewModels
                   {
                       StudentCheck = true;
                       GroupCheck = false;
-                      UpdateStipendColection();
+                      UpdateStipendCollection();
                   }));
             }
         }
@@ -240,7 +251,7 @@ namespace SocStipendDesktop.ViewModels
                   {
                       StudentCheck = false;
                       GroupCheck = true;
-                      UpdateStipendColection();
+                      UpdateStipendCollection();
                   }));
             }
         }
@@ -253,7 +264,7 @@ namespace SocStipendDesktop.ViewModels
                 return dtFromChangedCommand ??
                   (dtFromChangedCommand = new RelayCommand(obj =>
                   {
-                      UpdateStipendColection();
+                      UpdateStipendCollection();
                   }));
             }
         }
@@ -266,7 +277,7 @@ namespace SocStipendDesktop.ViewModels
                 return dtToChangedCommand ??
                   (dtToChangedCommand = new RelayCommand(obj =>
                   {
-                      UpdateStipendColection();
+                      UpdateStipendCollection();
                   }));
             }
         }
@@ -281,7 +292,7 @@ namespace SocStipendDesktop.ViewModels
                   {
                       DtAssignCheck = true;
                       DtEndCheck = false;
-                      UpdateStipendColection();
+                      UpdateStipendCollection();
                   }));
             }
         }
@@ -296,7 +307,7 @@ namespace SocStipendDesktop.ViewModels
                   {
                       DtAssignCheck = false;
                       DtEndCheck = true;
-                      UpdateStipendColection();
+                      UpdateStipendCollection();
                   }));
             }
         }
@@ -309,7 +320,7 @@ namespace SocStipendDesktop.ViewModels
                 return actualStipendCheckedCommand ??
                   (actualStipendCheckedCommand = new RelayCommand(obj =>
                   {
-                      UpdateStipendColection();
+                      UpdateStipendCollection();
                   }));
             }
         }
@@ -321,7 +332,7 @@ namespace SocStipendDesktop.ViewModels
                 return actualStipendUncheckedCommand ??
                   (actualStipendUncheckedCommand = new RelayCommand(obj =>
                   {
-                      UpdateStipendColection();
+                      UpdateStipendCollection();
                   }));
             }
         }

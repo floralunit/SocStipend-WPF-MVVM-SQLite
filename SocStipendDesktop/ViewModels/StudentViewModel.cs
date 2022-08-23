@@ -57,7 +57,7 @@ namespace SocStipendDesktop.ViewModels
                               var student = App.Context.Students.FirstOrDefault(s => s.Id == CurrentStudent.Id);
                               student = CurrentStudent;
                               App.Context.SaveChanges();
-                              MessageBox.Show("Информация о студенте успешно обновлена!");
+                              MessageBox.Show("Информация о студенте успешно обновлена!", "Ура!", MessageBoxButton.OK, MessageBoxImage.Information);
                           }
                       }
                       App.Context.SaveChanges();
@@ -79,8 +79,8 @@ namespace SocStipendDesktop.ViewModels
                           }
                           App.Context.Students.Remove(student);
                           App.Context.SaveChanges();
-                          MessageBox.Show($"Студент {CurrentStudent.StudentName} и все его справки были успешно удалены", "Ура!", MessageBoxButton.OK, MessageBoxImage.Information);
                           this.OnClosingRequest();
+                          MessageBox.Show($"Студент {CurrentStudent.StudentName} и все его справки были успешно удалены", "Ура!", MessageBoxButton.OK, MessageBoxImage.Information);
                       }
                       else
                           return;

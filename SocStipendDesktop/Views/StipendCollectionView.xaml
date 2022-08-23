@@ -41,6 +41,14 @@
                     </i:Interaction.Triggers>
                 </MenuItem>
             </MenuItem>
+            <MenuItem Header="Обновить и очистить фильтры" >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction
+                            Command="{Binding RefreshClickCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </MenuItem>
             <MenuItem Header="Открыть справки выбранного студента" >
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
