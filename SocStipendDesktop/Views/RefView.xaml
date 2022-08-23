@@ -6,20 +6,22 @@
         xmlns:local="clr-namespace:SocStipendDesktop.Views"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="{Binding CurrentStipend.StudentName}" Height="450" Width="800">
-    <Grid>
-        <StackPanel>
-            <TextBlock Text="Дата выдачи справки"></TextBlock>
+        Title="{Binding CurrentStipend.StudentName}" Height="450" Width="800" WindowStartupLocation="CenterScreen" FontSize="16">
+    <Grid Background="#fff2b2">
+        <StackPanel Margin="15">
+            <TextBlock Text="Дата выдачи справки" Margin="0 10 0 0" FontWeight="Bold"></TextBlock>
             <DatePicker SelectedDate="{Binding CurrentStipend.DtRef}"></DatePicker>
-            <TextBlock Text="Дата назначения соц. стипендии"></TextBlock>
+            <TextBlock Text="Дата назначения соц. стипендии" Margin="0 10 0 0" FontWeight="Bold"></TextBlock>
             <DatePicker  SelectedDate="{Binding CurrentStipend.DtAssign}"></DatePicker>
-            <TextBlock Text="Дата окончания"></TextBlock>
+            <TextBlock Text="Дата окончания"  Margin="0 10 0 0" FontWeight="Bold"></TextBlock>
             <DatePicker SelectedDate="{Binding CurrentStipend.DtEnd}"></DatePicker>
-            <TextBlock Text="Компенсация проездного"></TextBlock>
-            <CheckBox  IsChecked="{Binding CurrentStipend.HasTravelCard}"></CheckBox>
-            <TextBlock Text="Приостановлено"></TextBlock>
+            <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+                <TextBlock Text="Компенсация проездного" FontWeight="Bold"></TextBlock>
+                <CheckBox  IsChecked="{Binding CurrentStipend.HasTravelCard}" Margin="5"></CheckBox>
+            </StackPanel>
+            <TextBlock Text="Приостановлено" Margin="0 10 0 0" FontWeight="Bold"></TextBlock>
             <DatePicker Name="TBoxGroup" Text="{Binding CurrentStipend.StudentGroup}"></DatePicker>
-            <Button Content="Сохранить">
+            <Button Content="Сохранить" HorizontalAlignment="Right"  Margin="0 10 0 0">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
                         <i:InvokeCommandAction

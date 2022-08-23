@@ -15,46 +15,6 @@ namespace SocStipendDesktop.ViewModels
 {
     public class StudentViewModel : INotifyPropertyChanged
     { 
-        public Student currentStudent;
-        public Student CurrentStudent
-        {
-            get { return currentStudent; }
-            set
-            {
-                currentStudent = value;
-                OnPropertyChanged("CurrentStudent");
-            }
-        }
-        public ObservableCollection<Stipend> stipendcol;
-        public ObservableCollection<Stipend> StipendCollection
-        {
-            get { return stipendcol; }
-            set
-            {
-                stipendcol = value;
-                OnPropertyChanged("StipendCollection");
-            }
-        }
-        public Stipend selectedstipend;
-        public Stipend SelectedStipend
-        {
-            get { return selectedstipend; }
-            set
-            {
-                selectedstipend = value;
-                OnPropertyChanged("SelectedStipend");
-            }
-        }
-        public bool stipendsEnabled;
-        public bool StipendsEnabled
-        {
-            get { return stipendsEnabled; }
-            set
-            {
-                stipendsEnabled = value;
-                OnPropertyChanged("StipendsEnabled");
-            }
-        }
         //сохранить изменения
         private RelayCommand saveChangesClickCommand;
         public RelayCommand SaveChangesClickCommand => saveChangesClickCommand ??
@@ -136,14 +96,10 @@ namespace SocStipendDesktop.ViewModels
                 return stipendColectionLoadedCommand ??
                   (stipendColectionLoadedCommand = new RelayCommand(obj =>
                   {
-                      UpdateStipendColection();
+                      var stipends = App.Context.Stipends.ToList();
+                      StipendCollection = new ObservableCollection<Stipend>(stipends.Where(p => p.StudentId == CurrentStudent.Id).OrderBy(s => s.DtAssign));
                   }));
             }
-        }
-        public void UpdateStipendColection()
-        {
-            var stipends = App.Context.Stipends.ToList();
-            StipendCollection = new ObservableCollection<Stipend>(stipends.Where(p => p.StudentId == CurrentStudent.Id).OrderBy(s => s.DtAssign));
         }
         //создать новую справку
         private RelayCommand stipendCreateClickCommand;
@@ -199,12 +155,51 @@ namespace SocStipendDesktop.ViewModels
                               App.Context.Stipends.Remove(stipend);
                               App.Context.SaveChanges();
                               MessageBox.Show($"Справка {CurrentStudent.StudentName} от {SelectedStipend.DtAssign} была успешно удалена", "Ура!", MessageBoxButton.OK, MessageBoxImage.Information);
-                              UpdateStipendColection();
                           }
                           else
                               return;
                       }
                   }));
+        public Student currentStudent;
+        public Student CurrentStudent
+        {
+            get { return currentStudent; }
+            set
+            {
+                currentStudent = value;
+                OnPropertyChanged("CurrentStudent");
+            }
+        }
+        public ObservableCollection<Stipend> stipendcol;
+        public ObservableCollection<Stipend> StipendCollection
+        {
+            get { return stipendcol; }
+            set
+            {
+                stipendcol = value;
+                OnPropertyChanged("StipendCollection");
+            }
+        }
+        public Stipend selectedstipend;
+        public Stipend SelectedStipend
+        {
+            get { return selectedstipend; }
+            set
+            {
+                selectedstipend = value;
+                OnPropertyChanged("SelectedStipend");
+            }
+        }
+        public bool stipendsEnabled;
+        public bool StipendsEnabled
+        {
+            get { return stipendsEnabled; }
+            set
+            {
+                stipendsEnabled = value;
+                OnPropertyChanged("StipendsEnabled");
+            }
+        }
 
         public event EventHandler ClosingRequest;
         protected void OnClosingRequest()

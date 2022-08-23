@@ -5,16 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SocStipendDesktop.Views" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="Социальная стипендия" Height="600" Width="800" FontFamily="Calibri" FontSize="16">
-    <Grid>
+        Title="Социальная стипендия" Height="600" Width="800" FontFamily="Calibri" FontSize="16" WindowStartupLocation="CenterScreen">
+    <Grid Background="#fff2b2">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="0.3*"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Menu VerticalAlignment="Top" Grid.Row="0">
+        <Menu Grid.Row="0">
             <MenuItem Header="Меню">
-                <MenuItem Header="Добавить нового студента" >
+                <MenuItem Header="Добавить нового студента" Foreground="#033f63">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction
@@ -22,7 +22,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </MenuItem>
-                <MenuItem Header="Обновить название групп">
+                <MenuItem Header="Обновить название групп" Foreground="#033f63">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction
@@ -30,9 +30,9 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </MenuItem>
-                <MenuItem Header="Сохранить базу данных"></MenuItem>
+                <MenuItem Header="Сохранить базу данных" Foreground="#033f63"></MenuItem>
                 <Separator />
-                <MenuItem Header="Выйти" >
+                <MenuItem Header="Выйти" Foreground="#033f63">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction
@@ -60,14 +60,8 @@
                 </i:Interaction.Triggers>
             </MenuItem>
         </Menu>
-        <StackPanel Background="Beige" Grid.Row="1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition Width="auto"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <StackPanel Name="SearchPanel" Grid.Column="0" HorizontalAlignment="Center">
+        <StackPanel  Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel Name="SearchPanel" Grid.Column="0" HorizontalAlignment="Center" Margin="25 5">
                     <TextBlock HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="5">Поиск</TextBlock>
                     <TextBox Name="TBSearch" Text="{Binding SearchBox, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                              Grid.Row="0" Margin="10,5">
@@ -102,7 +96,7 @@
                         </RadioButton>
                     </StackPanel>
                 </StackPanel>
-                <StackPanel Name="DtPanel" Grid.Column="1" HorizontalAlignment="Center">
+            <StackPanel Name="DtPanel" Grid.Column="1" HorizontalAlignment="Center" Margin="25 5">
                     <StackPanel Orientation="Horizontal" Margin="5">
                         <TextBlock VerticalAlignment="Center" Margin="5">От</TextBlock>
                         <DatePicker Name="DtFrom" SelectedDate="{Binding DateFrom, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
@@ -148,30 +142,30 @@
                         </RadioButton>
                     </StackPanel>
                 </StackPanel>
-                <CheckBox Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"
+            <CheckBox Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="25 5"
                           Name="CBActual" IsChecked="{Binding ActualStipendCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                           Content="Показать только действующие справки">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Checked">
+                        <i:InvokeCommandAction
                             Command="{Binding ActualStipendCheckedCommand}"
                             CommandParameter="{Binding ActualStipendCheck}" />
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="Unchecked">
+                        <i:InvokeCommandAction
                             Command="{Binding ActualStipendUncheckedCommand}"
                             CommandParameter="{Binding ActualStipendCheck}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </CheckBox>
-            </Grid>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </CheckBox>
         </StackPanel>
         <ListView Name="List" Grid.Row="2" ItemsSource="{Binding StipendCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                  SelectedItem="{Binding SelectedStipend, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Stretch" >
+                  SelectedItem="{Binding SelectedStipend, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Center"
+                  Margin="15">
             <ListView.View>
                 <GridView>
                     <GridView.Columns>
-                        <GridViewColumn Header="Студент" DisplayMemberBinding="{Binding Path=StudentName}" Width="auto" ></GridViewColumn>
+                        <GridViewColumn Header="Студент" DisplayMemberBinding="{Binding Path=StudentName}" Width="auto"></GridViewColumn>
                         <GridViewColumn Header="Группа" DisplayMemberBinding="{Binding Path=StudentGroup}" Width="auto"></GridViewColumn>
                         <GridViewColumn Header="Дата выдачи справки" DisplayMemberBinding="{Binding Path=DtRef, StringFormat=dd.MM.yyyy}" Width="auto"></GridViewColumn>
                         <GridViewColumn Header="Дата назначения соц. стипендии" DisplayMemberBinding="{Binding Path=DtAssign, StringFormat=dd.MM.yyyy}" Width="auto"></GridViewColumn>
@@ -179,7 +173,7 @@
                         <GridViewColumn Header="Компенсация проездного">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                         <CheckBox IsChecked="{Binding Path=HasTravelCard}" IsEnabled="False" />
                                     </StackPanel>
                                 </DataTemplate>

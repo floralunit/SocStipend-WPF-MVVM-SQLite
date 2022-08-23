@@ -42,8 +42,8 @@ namespace SocStipendDesktop.ViewModels
                           {
                               App.Context.Stipends.Add(CurrentStipend);
                               App.Context.SaveChanges();
-                              MessageBox.Show("Справка успешно создана!", "Ура!", MessageBoxButton.OK, MessageBoxImage.Information);
                               this.OnClosingRequest();
+                              MessageBox.Show("Справка успешно создана!", "Ура!", MessageBoxButton.OK, MessageBoxImage.Information);
                           }
                       }
                       else
@@ -58,8 +58,8 @@ namespace SocStipendDesktop.ViewModels
                               var stipend = App.Context.Stipends.FirstOrDefault(s => s.Id == CurrentStipend.Id);
                               stipend = CurrentStipend;
                               App.Context.SaveChanges();
-                              MessageBox.Show("Информация о справке успешно обновлена!");
                               this.OnClosingRequest();
+                              MessageBox.Show("Информация о справке успешно обновлена!", "Ура!", MessageBoxButton.OK, MessageBoxImage.Information);
                           }
                       }
                       App.Context.SaveChanges();

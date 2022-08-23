@@ -6,13 +6,13 @@
         xmlns:local="clr-namespace:SocStipendDesktop.Views"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="{Binding CurrentStudent.Name}" Height="450" Width="800">
-    <Grid>
+        Title="{Binding CurrentStudent.StudentName}"  MinHeight="600" Width="800" WindowStartupLocation="CenterScreen" FontSize="16">
+    <Grid Background="#fff2b2">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <Menu VerticalAlignment="Top" Grid.Row="0">
+        <Menu Grid.Row="0">
             <MenuItem Header="Сохранить изменения" >
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
@@ -30,17 +30,54 @@
                 </i:Interaction.Triggers>
             </MenuItem>
         </Menu>
-        <StackPanel Grid.Row="1" >
-            <TextBlock Text="ФИО студента"></TextBlock>
-            <TextBox Name="TBoxName" Text="{Binding CurrentStudent.StudentName}"></TextBox>
-            <TextBlock Text="Группа"></TextBlock>
-            <TextBox Name="TBoxGroup" Text="{Binding CurrentStudent.StudentGroup}"></TextBox>
-            <TextBlock Text="Статус"></TextBlock>
-            <TextBox Name="TBoxStatus" Text="{Binding CurrentStudent.Status}"></TextBox>
-            <TextBlock Text="Выпустился/Отчислен"></TextBlock>
-            <CheckBox  IsChecked="{Binding CurrentStudent.IsExpelled}"></CheckBox>
-            <TextBlock HorizontalAlignment="Center">Справки</TextBlock>
-            <StackPanel Orientation="Horizontal">
+        <StackPanel Grid.Row="1" Margin="15">
+            <TextBlock Text="ФИО студента" Margin="0 10 0 0" FontWeight="Bold"></TextBlock>
+            <TextBox Name="TBoxName" Text="{Binding CurrentStudent.StudentName}" Padding="3"></TextBox>
+            <TextBlock Text="Группа" Margin="0 10 0 0" FontWeight="Bold"></TextBlock>
+            <TextBox Name="TBoxGroup" Text="{Binding CurrentStudent.StudentGroup}" Padding="3"></TextBox>
+            <TextBlock Text="Статус" Margin="0 10 0 0" FontWeight="Bold"></TextBlock>
+            <TextBox Name="TBoxStatus" Text="{Binding CurrentStudent.Status}" Padding="3"></TextBox>
+            <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+                <TextBlock Text="Выпустился/Отчислен"></TextBlock>
+                <CheckBox  IsChecked="{Binding CurrentStudent.IsExpelled}" Margin="5"></CheckBox>
+            </StackPanel>
+            <TextBlock HorizontalAlignment="Left" FontWeight="Bold" Margin="0 15 0 0">Справки</TextBlock>
+            <ListView Name="List" ItemsSource="{Binding StipendCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                      SelectedItem="{Binding SelectedStipend, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                      HorizontalAlignment="Stretch" Margin="0 10 0 0">
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Header="Дата выдачи справки" DisplayMemberBinding="{Binding Path=DtRef, StringFormat=dd.MM.yyyy}" Width="auto"></GridViewColumn>
+                            <GridViewColumn Header="Дата назначения соц. стипендии" DisplayMemberBinding="{Binding Path=DtAssign, StringFormat=dd.MM.yyyy}" Width="auto"></GridViewColumn>
+                            <GridViewColumn Header="Дата окончания" DisplayMemberBinding="{Binding Path=DtEnd, StringFormat=dd.MM.yyyy}" Width="auto"></GridViewColumn>
+                            <GridViewColumn Header="Компенсация проездного">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <CheckBox IsChecked="{Binding Path=HasTravelCard}" IsEnabled="False" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Приостановлено" DisplayMemberBinding="{Binding Path=DtStop, StringFormat=dd.MM.yyyy}" Width="auto"></GridViewColumn>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Loaded">
+                        <i:InvokeCommandAction
+                            Command="{Binding StipendColectionLoadedCommand}"
+                             />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction
+                            Command="{Binding StipendUpdateClickCommand}"
+                            CommandParameter="{Binding SelectedStipend}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ListView>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="Обновить" IsEnabled="{Binding StipendsEnabled, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
@@ -77,41 +114,6 @@
                     </i:Interaction.Triggers>
                 </Button>
             </StackPanel>
-            <ListView Name="List" ItemsSource="{Binding StipendCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                      SelectedItem="{Binding SelectedStipend, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                      HorizontalAlignment="Stretch">
-                <ListView.View>
-                    <GridView>
-                        <GridView.Columns>
-                            <GridViewColumn Header="Дата выдачи справки" DisplayMemberBinding="{Binding Path=DtRef, StringFormat=dd.MM.yyyy}" Width="auto"></GridViewColumn>
-                            <GridViewColumn Header="Дата назначения соц. стипендии" DisplayMemberBinding="{Binding Path=DtAssign, StringFormat=dd.MM.yyyy}" Width="auto"></GridViewColumn>
-                            <GridViewColumn Header="Дата окончания" DisplayMemberBinding="{Binding Path=DtEnd, StringFormat=dd.MM.yyyy}" Width="auto"></GridViewColumn>
-                            <GridViewColumn Header="Компенсация проездного">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <CheckBox IsChecked="{Binding Path=HasTravelCard}" IsEnabled="False" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="Приостановлено" DisplayMemberBinding="{Binding Path=DtStop, StringFormat=dd.MM.yyyy}" Width="auto"></GridViewColumn>
-                        </GridView.Columns>
-                    </GridView>
-                </ListView.View>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Loaded">
-                        <i:InvokeCommandAction
-                            Command="{Binding StipendColectionLoadedCommand}"
-                             />
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="MouseDoubleClick">
-                        <i:InvokeCommandAction
-                            Command="{Binding StipendUpdateClickCommand}"
-                            CommandParameter="{Binding SelectedStipend}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </ListView>
         </StackPanel>
     </Grid>
 </Window>
