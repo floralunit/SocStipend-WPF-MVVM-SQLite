@@ -11,10 +11,9 @@ namespace SocStipendDesktop.Models
     public class Student
     {
         public int Id { get; set; }
-        public string? Name { get; set; }
+        public string? StudentName { get; set; }
         public string? StudentGroup { get; set; }
         public string? Status { get; set; }
-        [NotMapped]
-        public bool? Otchiclen { get; set; }
+        public bool? IsExpelled { get; set; }
     }
 }

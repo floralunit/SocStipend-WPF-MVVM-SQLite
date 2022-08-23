@@ -30,7 +30,7 @@ namespace SocStipendDesktop.ViewModels
             foreach (Stipend item in stipends)
             {
                 if (item.StudentId != null) {
-                    item.StudentName = students.FirstOrDefault(x => x.Id == item.StudentId).Name;
+                    item.StudentName = students.FirstOrDefault(x => x.Id == item.StudentId).StudentName;
                     item.StudentGroup = students.FirstOrDefault(x => x.Id == item.StudentId).StudentGroup;
                     item.Status = students.FirstOrDefault(x => x.Id == item.StudentId).Status;
                 }
@@ -72,6 +72,7 @@ namespace SocStipendDesktop.ViewModels
                           var studentView = new StudentView();
                           var studentModel = studentView.DataContext as StudentViewModel;
                           studentModel.CurrentStudent = App.Context.Students.FirstOrDefault(s => s.Id == SelectedStipend.StudentId);
+                          studentModel.StipendsEnabled = true;
                           studentView.Show();
                       }
                   }));
@@ -85,6 +86,8 @@ namespace SocStipendDesktop.ViewModels
                       var studentView = new StudentView();
                       var studentModel = studentView.DataContext as StudentViewModel;
                       studentModel.CurrentStudent = new Student ();
+                      studentModel.CurrentStudent.IsExpelled = false;
+                      studentModel.StipendsEnabled = false;
                       studentView.Show();
                   }));
 
@@ -165,7 +168,7 @@ namespace SocStipendDesktop.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                return groupNew;
             }
             return groupNew;
         }
@@ -200,6 +203,7 @@ namespace SocStipendDesktop.ViewModels
         public RelayCommand ExitClickCommand => exitClickCommand ??
                   (exitClickCommand = new RelayCommand(obj =>
                   {
+                      Application.Current.MainWindow.Close();
                   }));
 
 

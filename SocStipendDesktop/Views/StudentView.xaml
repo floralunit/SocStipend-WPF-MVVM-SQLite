@@ -21,7 +21,7 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </MenuItem>
-            <MenuItem Header="Удалить студента и все его справки" >
+            <MenuItem Header="Удалить студента и все его справки" IsEnabled="{Binding StipendsEnabled, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
                         <i:InvokeCommandAction
@@ -32,14 +32,25 @@
         </Menu>
         <StackPanel Grid.Row="1" >
             <TextBlock Text="ФИО студента"></TextBlock>
-            <TextBox Name="TBoxName" Text="{Binding CurrentStudent.Name}"></TextBox>
+            <TextBox Name="TBoxName" Text="{Binding CurrentStudent.StudentName}"></TextBox>
             <TextBlock Text="Группа"></TextBlock>
             <TextBox Name="TBoxGroup" Text="{Binding CurrentStudent.StudentGroup}"></TextBox>
             <TextBlock Text="Статус"></TextBlock>
             <TextBox Name="TBoxStatus" Text="{Binding CurrentStudent.Status}"></TextBox>
+            <TextBlock Text="Выпустился/Отчислен"></TextBlock>
+            <CheckBox  IsChecked="{Binding CurrentStudent.IsExpelled}"></CheckBox>
             <TextBlock HorizontalAlignment="Center">Справки</TextBlock>
             <StackPanel Orientation="Horizontal">
-                <Button Content="Добавить">
+                <Button Content="Обновить" IsEnabled="{Binding StipendsEnabled, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction
+                            Command="{Binding StipendColectionLoadedCommand}"
+                            CommandParameter="{Binding SelectedStipend}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+                <Button Content="Добавить" IsEnabled="{Binding StipendsEnabled, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction
@@ -47,7 +58,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <Button Content="Редактировать">
+                <Button Content="Редактировать" IsEnabled="{Binding StipendsEnabled, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction
@@ -56,7 +67,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <Button Content="Удалить">
+                <Button Content="Удалить" IsEnabled="{Binding StipendsEnabled, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction
@@ -93,6 +104,11 @@
                         <i:InvokeCommandAction
                             Command="{Binding StipendColectionLoadedCommand}"
                              />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction
+                            Command="{Binding StipendUpdateClickCommand}"
+                            CommandParameter="{Binding SelectedStipend}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ListView>

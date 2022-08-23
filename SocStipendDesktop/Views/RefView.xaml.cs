@@ -23,7 +23,9 @@ namespace SocStipendDesktop.Views
         public RefView()
         {
             InitializeComponent();
-            DataContext = new RefViewModel();
+            var vm = new RefViewModel();
+            DataContext = vm;
+            vm.ClosingRequest += (sender, e) => this.Close();
         }
     }
 }

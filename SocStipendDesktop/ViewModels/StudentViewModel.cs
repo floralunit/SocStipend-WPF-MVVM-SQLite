@@ -45,7 +45,16 @@ namespace SocStipendDesktop.ViewModels
                 OnPropertyChanged("SelectedStipend");
             }
         }
-
+        public bool stipendsEnabled;
+        public bool StipendsEnabled
+        {
+            get { return stipendsEnabled; }
+            set
+            {
+                stipendsEnabled = value;
+                OnPropertyChanged("StipendsEnabled");
+            }
+        }
         //сохранить изменения
         private RelayCommand saveChangesClickCommand;
         public RelayCommand SaveChangesClickCommand => saveChangesClickCommand ??
@@ -53,7 +62,7 @@ namespace SocStipendDesktop.ViewModels
                   {
                       if (CurrentStudent.Id == 0)
                       {
-                          if (CurrentStudent.Name == null || CurrentStudent.Name == "")
+                          if (CurrentStudent.StudentName == null || CurrentStudent.StudentName == "")
                           {
                               MessageBox.Show("Не заполнено ФИО!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
                               return;
@@ -67,12 +76,13 @@ namespace SocStipendDesktop.ViewModels
                           {
                               App.Context.Students.Add(CurrentStudent);
                               App.Context.SaveChanges();
+                              StipendsEnabled = true;
                               MessageBox.Show("Студент успешно добавлен! \nСоздайте для него справку, не закрывая это окно, чтобы студент отобразился в перечне справок.", "Ура!", MessageBoxButton.OK, MessageBoxImage.Information);
                           }
                       }
                       else
                       {
-                          if (CurrentStudent.Name == null || CurrentStudent.Name == "")
+                          if (CurrentStudent.StudentName == null || CurrentStudent.StudentName == "")
                           {
                               MessageBox.Show("Не заполнено ФИО!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
                               return;
@@ -98,8 +108,22 @@ namespace SocStipendDesktop.ViewModels
         public RelayCommand StudentDeleteClickCommand => studentDeleteClickCommand ??
                   (studentDeleteClickCommand = new RelayCommand(obj =>
                   {
-                      var stipends = App.Context.Stipends.ToList();
-                      StipendCollection = new ObservableCollection<Stipend>(stipends.Where(p => p.StudentId == CurrentStudent.Id).OrderBy(s => s.DtAssign));
+                      var result = MessageBox.Show("Удалить выбранного студента и все его справки?", $"{CurrentStudent.StudentName}", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                      if (result == MessageBoxResult.Yes)
+                      {
+                          var student = App.Context.Students.FirstOrDefault(s => s.Id == CurrentStudent.Id);
+                          var stipends = App.Context.Stipends.Where(s => s.StudentId == student.Id);
+                          foreach (var stipend in stipends)
+                          {
+                              App.Context.Stipends.Remove(stipend);
+                          }
+                          App.Context.Students.Remove(student);
+                          App.Context.SaveChanges();
+                          MessageBox.Show($"Студент {CurrentStudent.StudentName} и все его справки были успешно удалены", "Ура!", MessageBoxButton.OK, MessageBoxImage.Information);
+                          this.OnClosingRequest();
+                      }
+                      else
+                          return;
                   }));
 
 
@@ -130,6 +154,7 @@ namespace SocStipendDesktop.ViewModels
                       var stipendModel = stipendView.DataContext as RefViewModel;
                       stipendModel.CurrentStipend = new Stipend();
                       stipendModel.CurrentStipend.StudentId = CurrentStudent.Id;
+                      stipendModel.CurrentStipend.HasTravelCard = false;
                       stipendView.Show();
                   }));
 
@@ -173,12 +198,22 @@ namespace SocStipendDesktop.ViewModels
                               var stipend = App.Context.Stipends.FirstOrDefault(s => s.Id == SelectedStipend.Id);
                               App.Context.Stipends.Remove(stipend);
                               App.Context.SaveChanges();
+                              MessageBox.Show($"Справка {CurrentStudent.StudentName} от {SelectedStipend.DtAssign} была успешно удалена", "Ура!", MessageBoxButton.OK, MessageBoxImage.Information);
                               UpdateStipendColection();
                           }
                           else
                               return;
                       }
                   }));
+
+        public event EventHandler ClosingRequest;
+        protected void OnClosingRequest()
+        {
+            if (this.ClosingRequest != null)
+            {
+                this.ClosingRequest(this, EventArgs.Empty);
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")

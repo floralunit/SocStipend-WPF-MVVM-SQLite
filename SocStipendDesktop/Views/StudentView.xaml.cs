@@ -24,7 +24,9 @@ namespace SocStipendDesktop.Views
         public StudentView()
         {
             InitializeComponent();
-            DataContext = new StudentViewModel();
+            var vm = new StudentViewModel();
+            DataContext = vm;
+            vm.ClosingRequest += (sender, e) => this.Close();
         }
     }
 }

@@ -38,16 +38,12 @@ namespace SocStipendDesktop.ViewModels
                               MessageBox.Show("Не заполнена дата назначения стипендии!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
                               return;
                           }
-                          else if (CurrentStipend.DtRef == null)
-                          {
-                              MessageBox.Show("Не заполнена дата выдачи справки!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
-                              return;
-                          }
                           else
                           {
                               App.Context.Stipends.Add(CurrentStipend);
                               App.Context.SaveChanges();
                               MessageBox.Show("Справка успешно создана!", "Ура!", MessageBoxButton.OK, MessageBoxImage.Information);
+                              this.OnClosingRequest();
                           }
                       }
                       else
@@ -57,22 +53,25 @@ namespace SocStipendDesktop.ViewModels
                               MessageBox.Show("Не заполнена дата назначения стипендии!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
                               return;
                           }
-                          else if (CurrentStipend.DtRef == null)
-                          {
-                              MessageBox.Show("Не заполнена дата выдачи справки!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
-                              return;
-                          }
                           else
                           {
                               var stipend = App.Context.Stipends.FirstOrDefault(s => s.Id == CurrentStipend.Id);
                               stipend = CurrentStipend;
                               App.Context.SaveChanges();
                               MessageBox.Show("Информация о справке успешно обновлена!");
+                              this.OnClosingRequest();
                           }
                       }
                       App.Context.SaveChanges();
                   }));
-
+        public event EventHandler ClosingRequest;
+        protected void OnClosingRequest()
+        {
+            if (this.ClosingRequest != null)
+            {
+                this.ClosingRequest(this, EventArgs.Empty);
+            }
+        }
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {

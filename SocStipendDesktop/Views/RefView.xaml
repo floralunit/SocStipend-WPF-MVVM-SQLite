@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SocStipendDesktop.Views"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="RefView" Height="450" Width="800">
+        Title="{Binding CurrentStipend.StudentName}" Height="450" Width="800">
     <Grid>
         <StackPanel>
             <TextBlock Text="Дата выдачи справки"></TextBlock>
@@ -16,7 +16,7 @@
             <TextBlock Text="Дата окончания"></TextBlock>
             <DatePicker SelectedDate="{Binding CurrentStipend.DtEnd}"></DatePicker>
             <TextBlock Text="Компенсация проездного"></TextBlock>
-            <TextBox  Text="{Binding CurrentStipend.Name}"></TextBox>
+            <CheckBox  IsChecked="{Binding CurrentStipend.HasTravelCard}"></CheckBox>
             <TextBlock Text="Приостановлено"></TextBlock>
             <DatePicker Name="TBoxGroup" Text="{Binding CurrentStipend.StudentGroup}"></DatePicker>
             <Button Content="Сохранить">
