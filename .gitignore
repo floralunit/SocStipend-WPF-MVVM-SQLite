@@ -1,2 +1,5 @@
 bin/
 obj/
+*.vsidx
+*.v2
+*.v1
