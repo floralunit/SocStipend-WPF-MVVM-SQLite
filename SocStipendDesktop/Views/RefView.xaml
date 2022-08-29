@@ -20,7 +20,7 @@
                 <CheckBox  IsChecked="{Binding CurrentStipend.HasTravelCard}" Margin="5"></CheckBox>
             </StackPanel>
             <TextBlock Text="Приостановлено" Margin="0 10 0 0" FontWeight="Bold"></TextBlock>
-            <DatePicker Name="TBoxGroup" Text="{Binding CurrentStipend.StudentGroup}"></DatePicker>
+            <DatePicker SelectedDate="{Binding CurrentStipend.DtStop}"></DatePicker>
             <Button Content="Сохранить" HorizontalAlignment="Right"  Margin="0 10 0 0">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">

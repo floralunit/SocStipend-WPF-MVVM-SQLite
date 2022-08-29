@@ -150,22 +150,57 @@
                         </RadioButton>
                     </StackPanel>
                 </StackPanel>
-            <CheckBox Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="25 5"
+            <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <CheckBox  Margin="25 5"
                           Name="CBActual" IsChecked="{Binding ActualStipendCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                           Content="Показать только действующие справки">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Checked">
-                        <i:InvokeCommandAction
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Checked">
+                            <i:InvokeCommandAction
                             Command="{Binding ActualStipendCheckedCommand}"
                             CommandParameter="{Binding ActualStipendCheck}" />
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="Unchecked">
-                        <i:InvokeCommandAction
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="Unchecked">
+                            <i:InvokeCommandAction
                             Command="{Binding ActualStipendUncheckedCommand}"
                             CommandParameter="{Binding ActualStipendCheck}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </CheckBox>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </CheckBox>
+                <CheckBox Margin="25 5"
+                          Name="CBStopped" IsChecked="{Binding StoppedStipendCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                          Content="Показать только приостановленные">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Checked">
+                            <i:InvokeCommandAction
+                            Command="{Binding StoppedStipendCheckedCommand}"
+                            CommandParameter="{Binding StoppedStipendCheck}" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="Unchecked">
+                            <i:InvokeCommandAction
+                            Command="{Binding StoppedStipendUncheckedCommand}"
+                            CommandParameter="{Binding StoppedStipendCheck}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </CheckBox>
+                <CheckBox Margin="25 5"
+                          Name="CBCard" IsChecked="{Binding CardStipendCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                          Content="Показать только с компенсацией проездного">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Checked">
+                            <i:InvokeCommandAction
+                            Command="{Binding CardStipendCheckedCommand}"
+                            CommandParameter="{Binding CardStipendCheck}" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="Unchecked">
+                            <i:InvokeCommandAction
+                            Command="{Binding CardStipendUncheckedCommand}"
+                            CommandParameter="{Binding CardStipendCheck}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </CheckBox>
+            </StackPanel>
+
         </StackPanel>
         <ListView Name="List" Grid.Row="2" ItemsSource="{Binding StipendCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                   SelectedItem="{Binding SelectedStipend, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Center"
@@ -173,6 +208,7 @@
             <ListView.View>
                 <GridView>
                     <GridView.Columns>
+                        <GridViewColumn Header="№" DisplayMemberBinding="{Binding Path=OrderNum}" Width="auto"></GridViewColumn>
                         <GridViewColumn Header="Студент" DisplayMemberBinding="{Binding Path=StudentName}" Width="auto"></GridViewColumn>
                         <GridViewColumn Header="Группа" DisplayMemberBinding="{Binding Path=StudentGroup}" Width="auto"></GridViewColumn>
                         <GridViewColumn Header="Дата выдачи справки" DisplayMemberBinding="{Binding Path=DtRef, StringFormat=dd.MM.yyyy}" Width="auto"></GridViewColumn>

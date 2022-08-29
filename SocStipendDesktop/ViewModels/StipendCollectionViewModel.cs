@@ -35,9 +35,17 @@ namespace SocStipendDesktop.ViewModels
                     item.Status = students.FirstOrDefault(x => x.Id == item.StudentId).Status;
                 }
             }
+            if (StoppedStipendCheck == true)
+            {
+                stipends = stipends.Where(p => p.DtStop != null).ToList();
+            }
             if (ActualStipendCheck == true)
             {
                 stipends = stipends.Where(p => (p.DtEnd == null || p.DtEnd >= DateTime.Now) && p.DtStop == null).ToList();
+            }
+            if (CardStipendCheck == true)
+            {
+                stipends = stipends.Where(p => p.HasTravelCard == true).ToList();
             }
             if (DateTo != null)
             {
@@ -51,10 +59,16 @@ namespace SocStipendDesktop.ViewModels
             }
             if (SearchBox != null)
             {
-                if (StudentCheck == true) stipends = stipends.Where(p => p.StudentName != null && p.StudentName.ToLower().Contains(SearchBox.ToLower())).ToList();
+                if (StudentCheck == true) stipends = stipends.Where(p => p.StudentName != null && p.StudentName.ToLower().Contains(SearchBox.ToLower()) || p.Status != null && p.Status.ToLower().Contains(SearchBox.ToLower())).ToList();
                 if (GroupCheck == true) stipends = stipends.Where(p => p.StudentGroup != null && p.StudentGroup.ToLower().Contains(SearchBox.ToLower())).ToList();
             }
             StipendCollection = new ObservableCollection<Stipend>(stipends.OrderBy(p => p.StudentName));
+            int i = 1;
+            foreach (var stipend in StipendCollection)
+            {
+                stipend.OrderNum = i;
+                i++;
+            }
         }
 
         //открытие окна для работы с отдельным студентом
@@ -214,7 +228,9 @@ namespace SocStipendDesktop.ViewModels
                       DateFrom = null;
                       DateTo = null;
                       SearchBox = "";
-                      ActualStipendCheck = false;
+                      ActualStipendCheck = true;
+                      StoppedStipendCheck = false;
+                      CardStipendCheck = false;
                       UpdateStipendCollection();
                   }));
 
@@ -320,6 +336,7 @@ namespace SocStipendDesktop.ViewModels
                 return actualStipendCheckedCommand ??
                   (actualStipendCheckedCommand = new RelayCommand(obj =>
                   {
+                      StoppedStipendCheck = false;
                       UpdateStipendCollection();
                   }));
             }
@@ -337,7 +354,58 @@ namespace SocStipendDesktop.ViewModels
             }
         }
 
+        // приостановленная стипендия
+        private RelayCommand stoppedStipendCheckedCommand;
+        public RelayCommand StoppedStipendCheckedCommand
+        {
+            get
+            {
+                return stoppedStipendCheckedCommand ??
+                  (stoppedStipendCheckedCommand = new RelayCommand(obj =>
+                  {
+                      ActualStipendCheck = false;
+                      UpdateStipendCollection();
+                  }));
+            }
+        }
+        private RelayCommand stoppedStipendUncheckedCommand;
+        public RelayCommand StoppedStipendUncheckedCommand
+        {
+            get
+            {
+                return stoppedStipendUncheckedCommand ??
+                  (stoppedStipendUncheckedCommand = new RelayCommand(obj =>
+                  {
+                      UpdateStipendCollection();
+                  }));
+            }
+        }
 
+        // стипендия с проездным
+        private RelayCommand cardStipendCheckedCommand;
+        public RelayCommand CardStipendCheckedCommand
+        {
+            get
+            {
+                return cardStipendCheckedCommand ??
+                  (cardStipendCheckedCommand = new RelayCommand(obj =>
+                  {
+                      UpdateStipendCollection();
+                  }));
+            }
+        }
+        private RelayCommand cardStipendUncheckedCommand;
+        public RelayCommand CardStipendUncheckedCommand
+        {
+            get
+            {
+                return cardStipendUncheckedCommand ??
+                  (cardStipendUncheckedCommand = new RelayCommand(obj =>
+                  {
+                      UpdateStipendCollection();
+                  }));
+            }
+        }
 
         public ObservableCollection<Stipend> stipendcol;
         public ObservableCollection<Stipend> StipendCollection
@@ -367,6 +435,26 @@ namespace SocStipendDesktop.ViewModels
             {
                 _ActualStipendCheck = value;
                 OnPropertyChanged("ActualStipendCheck");
+            }
+        }
+        public bool _StoppedStipendCheck;
+        public bool StoppedStipendCheck
+        {
+            get { return _StoppedStipendCheck; }
+            set
+            {
+                _StoppedStipendCheck = value;
+                OnPropertyChanged("StoppedStipendCheck");
+            }
+        }
+        public bool _CardStipendCheck;
+        public bool CardStipendCheck
+        {
+            get { return _CardStipendCheck; }
+            set
+            {
+                _CardStipendCheck = value;
+                OnPropertyChanged("CardStipendCheck");
             }
         }
         public bool dtAssignCheck;
